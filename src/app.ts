@@ -1,5 +1,5 @@
+const Secret = require("./secret");
 import * as Discord from "discord.js";
-import * as Secret from "./secret";
 import * as Messages from "./messages";
 
 const client = new Discord.Client();

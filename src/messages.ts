@@ -19,7 +19,7 @@ function handleCommands(message: Discord.Message) {
     const cmdArgs = message.content.substr(BotPrefix.length).split(' ');
     switch (cmdArgs[0].toLowerCase()) {
         case "tt":
-            Untis.sendTimeTable(message, new Date('2021-03-08'));
+            Untis.sendTimeTable(message, new Date());
             break;
         case "help":
             sendHelp(message);

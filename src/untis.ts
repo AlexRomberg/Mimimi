@@ -34,9 +34,13 @@ function sortTimeTable(timeTable: any[]) {
 function getTimeTableEmbed(timeTable, date: Date): Discord.MessageEmbed {
     const embed = new Discord.MessageEmbed();
     embed.setTitle('Stundenplan ' + formatDate(date)).setColor('#ff9800');
-    timeTable.forEach(lesson => {
-        embed.addField(lesson.su[0].longname, formatTime(WebUntis.convertUntisTime(lesson.startTime)) + ' - ' + formatTime(WebUntis.convertUntisTime(lesson.endTime)) + ' | ' + lesson.te[0].longname + ' [' + lesson.te[0].name + '] | ' + lesson.ro[0].name);
-    });
+    if (timeTable.length > 0) {
+        timeTable.forEach(lesson => {
+            embed.addField(lesson.su[0].longname, formatTime(WebUntis.convertUntisTime(lesson.startTime)) + ' - ' + formatTime(WebUntis.convertUntisTime(lesson.endTime)) + ' | ' + lesson.te[0].longname + ' [' + lesson.te[0].name + '] | ' + lesson.ro[0].name);
+        });
+    } else {
+        embed.addField("Keine Schuel","Schönen Tag");
+    }
     return embed;
 }
 

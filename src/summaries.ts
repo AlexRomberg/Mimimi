@@ -62,8 +62,8 @@ export function edit(id: number, message: Discord.Message) {
             if (wasEditable === false) {
                 message.reply('can\'t find Message, please select the right id');
             } else if (wasEditable === true) {
-                message.author.send('**Here is the unformated version of the summary**\ncopy and send it here to edit it.\nIf you done go into the chat with the summary and type `apply` -> save or `drop` -> cancel\n-------------------------------------------------------------');
-                message.author.send(summary.lines.join('\n').replace(/\`/g, '\\\`'));
+                message.author.send('**Here is the unformated version of the summary**\ncopy and send it here to edit it.\nIf you\'re done, go into the chat with the summary and type `apply` -> save or `drop` -> cancel\n-------------------------------------------------------------');
+                message.author.send((summary.lines.length >= 1) ? summary.lines.join('\n').replace(/\`/g, '\\\`') : "empty summary");
             } else {
                 message.channel.send(`<@${wasEditable}> is currently editing, ask him to \`drop\` or \`apply\` his changes.`);
             }
@@ -107,8 +107,8 @@ function getEmbed(id: number): Discord.MessageEmbed {
     const embed = new Discord.MessageEmbed;
     if (summary != undefined) {
         embed.setColor('#27E100');
-        embed.addField(`${summary.title} *[id: ${summary.id}]*`, summary.lines.length < 1 ? 'use `edit ' + summary.id + '` to change content of this summary' : summary.lines.join('\n'));
-        return embed;
+        embed.setTitle(`${summary.title} *[id: ${summary.id}]*`);
+        embed.setDescription(summary.lines.length < 1 ? '**empty**\nuse `edit ' + summary.id + '` to change content of this summary' : summary.lines.join('\n'));
     }
     return embed;
 }
@@ -118,8 +118,8 @@ function getEditEmbed(userID: string): Discord.MessageEmbed {
     const embed = new Discord.MessageEmbed;
     if (summary != undefined) {
         embed.setColor('#27E100');
-        embed.addField(`${summary.title} *[id: ${summary.id}]*`, summary.lines.length < 1 ? 'use `edit <id>` to change content of this summary' : summary.lines.join('\n'));
-        return embed;
+        embed.setTitle(`${summary.title} *[id: ${summary.id}]*`);
+        embed.setDescription(summary.lines.join('\n'));
     }
     return embed;
 }

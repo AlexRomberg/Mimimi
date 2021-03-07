@@ -3,7 +3,7 @@ import * as Discord from "discord.js";
 import * as Messages from "./messages";
 
 const client = new Discord.Client();
-const BotPrefix = '\\';
+const BotPrefix = '!';
 
 client.on('ready', () => {
     const user: Discord.ClientUser = client.user!;
@@ -19,6 +19,9 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg: Discord.Message) => {
+    if (msg.type == "PINS_ADD" && msg.author.id == client.user?.id) {
+        msg.delete().catch();
+    }
     Messages.handle(msg);
 });
 

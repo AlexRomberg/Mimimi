@@ -1,14 +1,18 @@
-const Secret = require("./secret");
 import * as Discord from "discord.js";
+import config from "./config";
 import * as Messages from "./messages";
 
 const client = new Discord.Client();
-const BotPrefix = '!';
 
 client.on('ready', () => {
     const user: Discord.ClientUser = client.user!;
 
     console.log(`Logged in as ${user.tag}!`);
+
+    client.users.fetch(config.user, false, true).then(user => {
+        user.send('Rebooted!');
+    });
+
     user.setPresence({
         status: "online",
         activity: {
@@ -25,5 +29,5 @@ client.on('message', (msg: Discord.Message) => {
     Messages.handle(msg);
 });
 
-client.login(Secret.Token.Mimimi);
-Messages.init(Secret.PW.WebUntis, BotPrefix);
+client.login(config.token);
+Messages.init(config);

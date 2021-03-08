@@ -2,18 +2,19 @@ import * as Discord from "discord.js";
 import * as Untis from "./untis";
 import * as Summary from './summaries';
 
-let BotPrefix: string = '\\';
+let BotPrefix: string = '!';
 
-export function init(password: string, botPrefix: string) {
-    Untis.init(password);
-    BotPrefix = botPrefix;
+export function init(config: any) {
+    Untis.init(config.webuntis.pw, config.webuntis.user);
+    Summary.init(config.botPrefix);
+    BotPrefix = config.botPrefix;
 }
 
 export function handle(message: Discord.Message) {
     if (message.content.startsWith(BotPrefix) && !message.author.bot) {
         logMessage(message);
         handleCommands(message);
-    } else if (message.channel.type=="dm") {
+    } else if (message.channel.type == "dm") {
         Summary.update(message);
     }
 }

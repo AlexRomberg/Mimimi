@@ -2,10 +2,10 @@ import * as Discord from "discord.js";
 import WebUntis from "webuntis";
 
 let Untis: WebUntis;
-export function init(PW: string) {
+export function init(PW: string, user: string) {
     Untis = new WebUntis(
         'KF',
-        'Alexander.Romberg',
+        user,
         PW,
         'herakles.webuntis.com'
     );
@@ -39,13 +39,13 @@ function getTimeTableEmbed(timeTable, date: Date): Discord.MessageEmbed {
             embed.addField(lesson.su[0].longname, formatTime(WebUntis.convertUntisTime(lesson.startTime)) + ' - ' + formatTime(WebUntis.convertUntisTime(lesson.endTime)) + ' | ' + lesson.te[0].longname + ' [' + lesson.te[0].name + '] | ' + lesson.ro[0].name);
         });
     } else {
-        embed.addField("Keine Schuel","Schönen Tag");
+        embed.addField("Keine Schuel", "Schönen Tag");
     }
     return embed;
 }
 
 function formatDate(date: Date): string {
-    return date.getDay().toString().padStart(2, '0') + '.' + (+date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
+    return date.getDate().toString().padStart(2, '0') + '.' + (+date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
 }
 
 function formatTime(date: Date): string {

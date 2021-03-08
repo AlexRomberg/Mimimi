@@ -42,6 +42,11 @@ function handleCommands(message: Discord.Message) {
         case "apply":
             Summary.apply(message);
             break;
+        case "clear":
+            if (message.channel.type == "dm") {
+                clear(message.channel);
+            }
+            break;
         case "help":
             sendHelp(message);
             break;
@@ -70,4 +75,14 @@ function sendHelp(message: Discord.Message) {
             { name: `${BotPrefix}apply`, value: 'Stops editing mode and *applies* changes.' }
         )
     message.channel.send(exampleEmbed);
+}
+
+function clear(channel: Discord.DMChannel) {
+    channel.messages.fetch({ limit: 100 }).then(msgs => {
+        msgs.forEach(msg => {
+            msg.delete().catch();
+        });
+    }).catch(err => {
+        channel.send('cleaning not working: '+ err);
+    });
 }

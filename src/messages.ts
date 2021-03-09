@@ -25,6 +25,9 @@ function handleCommands(message: Discord.Message) {
         case "tt":
             Untis.sendTimeTable(message, new Date());
             break;
+        case "hw":
+            Untis.sendHomework(message);
+            break;
         case "new":
             Summary.create(message);
             break;
@@ -68,21 +71,25 @@ function sendHelp(message: Discord.Message) {
         .addFields(
             { name: `${BotPrefix}help`, value: 'Shows this help.' },
             { name: `${BotPrefix}tt`, value: 'Shows todays timetable.' },
+            { name: `${BotPrefix}hw`, value: 'Shows list of homework.' },
+            { name: `${BotPrefix}clear`, value: 'Deletes last 100 messages from DM.\n(won\'t work in server)\n----------------------------------------------------------' }
             { name: `${BotPrefix}new *<title>*`, value: 'Creates a new summary.' },
             { name: `${BotPrefix}delete *<id>*`, value: 'Removes summary with id.' },
             { name: `${BotPrefix}edit *<id>*`, value: 'Starts editing mode of summary.' },
             { name: `${BotPrefix}drop`, value: 'Stops editing mode and *deletes* changes.' },
             { name: `${BotPrefix}apply`, value: 'Stops editing mode and *applies* changes.' }
-        )
+            )
     message.channel.send(exampleEmbed);
 }
 
 function clear(channel: Discord.DMChannel) {
     channel.messages.fetch({ limit: 100 }).then(msgs => {
         msgs.forEach(msg => {
-            msg.delete().catch();
+            if (msg.author.bot) {
+                msg.delete().catch();
+            }
         });
     }).catch(err => {
-        channel.send('cleaning not working: '+ err);
+        channel.send('cleaning not working: ' + err);
     });
 }

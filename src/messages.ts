@@ -72,7 +72,7 @@ function sendHelp(message: Discord.Message) {
             { name: `${BotPrefix}help`, value: 'Shows this help.' },
             { name: `${BotPrefix}tt`, value: 'Shows todays timetable.' },
             { name: `${BotPrefix}hw`, value: 'Shows list of homework.' },
-            { name: `${BotPrefix}clear`, value: 'Deletes last 100 messages from DM.\n(won\'t work in server)\n----------------------------------------------------------' }
+            { name: `${BotPrefix}clear`, value: 'Deletes last 100 messages from DM.\n(won\'t work in server)\n----------------------------------------------------------' },
             { name: `${BotPrefix}new *<title>*`, value: 'Creates a new summary.' },
             { name: `${BotPrefix}delete *<id>*`, value: 'Removes summary with id.' },
             { name: `${BotPrefix}edit *<id>*`, value: 'Starts editing mode of summary.' },

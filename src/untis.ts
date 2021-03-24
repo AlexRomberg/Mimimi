@@ -101,7 +101,6 @@ function getHomeworkEmbed(homeworkObjects): Discord.MessageEmbed {
     embed.setTitle('Hausaufgaben').setColor('#ff9800');
     if (homeworkObjects.length > 0) {
         homeworkObjects.forEach(homeworkObject => {
-            console.log(homeworkObject.homework);
             embed.addField(formatDate(WebUntis.convertUntisDate(homeworkObject.homework.dueDate)) + ' | ' + homeworkObject.lesson.subject + ' | ' + homeworkObject.teacher.name, homeworkObject.homework.text);
         });
     } else {

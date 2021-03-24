@@ -1,6 +1,8 @@
 import * as Discord from "discord.js";
 import * as Untis from "./untis";
 import * as Summary from './summaries';
+import child_process from 'child_process';
+
 
 let BotPrefix: string = '!';
 
@@ -29,7 +31,11 @@ function handleCommands(message: Discord.Message) {
             Untis.sendHomework(message);
             break;
         case "new":
-            Summary.create(message);
+            if (message.channel.type != "dm") {
+                Summary.create(message);
+            } else {
+                message.reply('can\'t create summary in DM.');
+            }
             break;
         case "delete":
             if (cmdArgs.length == 2) { Summary.remove(Number(cmdArgs[1]), message); }
@@ -43,12 +49,19 @@ function handleCommands(message: Discord.Message) {
             Summary.drop(message);
             break;
         case "apply":
-            Summary.apply(message);
+            if (message.channel.type != "dm") {
+                Summary.apply(message);
+            } else {
+                message.reply('can\'t apply summary in DM. Go into original channel to apply.');
+            }
             break;
         case "clear":
             if (message.channel.type == "dm") {
                 clear(message.channel);
             }
+            break;
+        case "status":
+            status(message);
             break;
         case "help":
             sendHelp(message);
@@ -78,8 +91,21 @@ function sendHelp(message: Discord.Message) {
             { name: `${BotPrefix}edit *<id>*`, value: 'Starts editing mode of summary.' },
             { name: `${BotPrefix}drop`, value: 'Stops editing mode and *deletes* changes.' },
             { name: `${BotPrefix}apply`, value: 'Stops editing mode and *applies* changes.' }
-            )
+        )
     message.channel.send(exampleEmbed);
+}
+
+function status(message: Discord.Message) {
+    if (message.author.id == '545608977438998529') {
+        let temp;
+        try {
+            temp = child_process.execSync('vcgencmd measure_temp');
+        } catch {
+            temp = "Temp not available";
+        }
+
+        message.reply(new Discord.MessageEmbed().setColor('#f00').setTitle('Status').addField('Temp:', `${temp}`));
+    }
 }
 
 function clear(channel: Discord.DMChannel) {
